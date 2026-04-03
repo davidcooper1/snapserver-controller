@@ -146,6 +146,7 @@ manager.connect('name-appeared', on_name_appeared)
 for name in manager.props.player_names:
     init_player(name)
 
+
 loop = GLib.MainLoop()
 
 def run_loop():
@@ -156,6 +157,8 @@ def run_loop():
 thread = threading.Thread(target=run_loop)
 thread.daemon = True
 thread.start()
+
+send({"jsonrpc": "2.0", "method": "Plugin.Stream.Ready"})
 
 if __name__ == "__main__":
     try:
