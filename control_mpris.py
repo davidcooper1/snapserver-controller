@@ -48,15 +48,14 @@ class MprisControl:
 
         self._player = None
 
-    def set_player(self, player):
+    def set_player(self, player, manager):
         logger.info("New player registered")
         self._player = player
-        player.connect('metadata', self.on_metadata)
-        player.connect('playback_status', self.on_playback_status)
+        player.connect('metadata', self.on_metadata, manager)
+        player.connect('playback_status', self.on_playback_status, manager)
 
     def on_metadata(self, player, metadata):
         logger.info("Metadata changed")
-        logger.info(json.dumps(metadata))
         self._properties["metadata"].update({
             "title": metadata.get("xesam:title", ""),
             "artist": metadata.get("xesam:artist", ""),
