@@ -56,7 +56,7 @@ class MprisControl:
         player.connect('metadata', self.on_metadata, manager)
         player.connect('playback_status', self.on_playback_status, manager)
 
-    def on_metadata(self, player, metadata):
+    def on_metadata(self, player, metadata, manager):
         logger.info("Metadata changed")
         self._properties["metadata"].update({
             "title": metadata.get("xesam:title", ""),
@@ -66,7 +66,7 @@ class MprisControl:
         })
         self.send_update()
 
-    def on_playback_status(self, player, playback_status):
+    def on_playback_status(self, player, playback_status, manager):
         logger.info(f"Playback Status Update: {playback_status}")
         if playback_status == "playing":
             self._properties["playbackStatus"] = "playing"
