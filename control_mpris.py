@@ -6,6 +6,8 @@ import sys
 import threading
 import weakref
 
+import gi
+gi.require_version('Playerctl', '2.0')
 from gi.repository import Playerctl, GLib
 
 log_level = logging.INFO
