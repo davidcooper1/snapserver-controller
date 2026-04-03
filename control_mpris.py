@@ -71,7 +71,8 @@ class MprisControl:
         self.send_update()
 
     def send_update(self):
-        self._properties["position"] = self._player.get_position() / 1000000.0
+        if (self._player is not None):
+            self._properties["position"] = self._player.get_position() / 1000000.0
         send({
             "jsonrpc": "2.0",
             "method": "Plugin.Stream.Player.Properties",
