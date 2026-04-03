@@ -61,6 +61,7 @@ class MprisControl:
         self.send_update()
 
     def on_playback_status(self, player, playback_status):
+        logger.debug(f"Playback Status Update: {playback_status}")
         if playback_status == "playing":
             self._properties["playbackStatus"] = "playing"
         elif playback_status == "paused":
@@ -78,6 +79,7 @@ class MprisControl:
         })
 
     def control(self, cmd):
+        logger.debug(f"Command from IPC: {cmd}")
         if not cmd:
             return
         try:
