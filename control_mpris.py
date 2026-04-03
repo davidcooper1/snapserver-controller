@@ -157,21 +157,19 @@ for name in manager.props.player_names:
 
 loop = GLib.MainLoop()
 
-def run_loop():
-    logger.info("Starting GLib loop in background thread...")
-    loop.run()
-    logger.info("GLib loop stopped.")
+def run_input_loop():
+    logger.info("Doing stdin loop")
+    try:
+        for line in sys.stdin:
+                cntrl.control(line)
+    except KeyboardInterrupt:
+        exit()
 
-thread = threading.Thread(target=run_loop)
+thread = threading.Thread(target=run_input_loop)
 thread.daemon = True
 thread.start()
 
 cntrl.send_update()
 send({"jsonrpc": "2.0", "method": "Plugin.Stream.Ready"})
 
-if __name__ == "__main__":
-    try:
-        for line in sys.stdin:
-            cntrl.control(line)
-    except KeyboardInterrupt:
-        exit()
+loop.run()
