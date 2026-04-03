@@ -158,6 +158,7 @@ thread = threading.Thread(target=run_loop)
 thread.daemon = True
 thread.start()
 
+cntrl.send_update()
 send({"jsonrpc": "2.0", "method": "Plugin.Stream.Ready"})
 
 if __name__ == "__main__":
