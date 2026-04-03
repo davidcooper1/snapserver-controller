@@ -49,13 +49,14 @@ class MprisControl:
         self._player = None
 
     def set_player(self, player):
-        logger.debug("New player registered")
+        logger.info("New player registered")
         self._player = player
         player.connect('metadata', self.on_metadata)
         player.connect('playback_status', self.on_playback_status)
 
     def on_metadata(self, player, metadata):
-        logger.debug("Metadata changed")
+        logger.info("Metadata changed")
+        logger.info(json.dumps(metadata))
         self._properties["metadata"].update({
             "title": metadata.get("xesam:title", ""),
             "artist": metadata.get("xesam:artist", ""),
@@ -65,7 +66,7 @@ class MprisControl:
         self.send_update()
 
     def on_playback_status(self, player, playback_status):
-        logger.debug(f"Playback Status Update: {playback_status}")
+        logger.info(f"Playback Status Update: {playback_status}")
         if playback_status == "playing":
             self._properties["playbackStatus"] = "playing"
         elif playback_status == "paused":
@@ -84,7 +85,7 @@ class MprisControl:
         })
 
     def control(self, cmd):
-        logger.debug(f"Command from IPC: {cmd}")
+        logger.info(f"Command from IPC: {cmd}")
         if not cmd:
             return
         try:
@@ -94,7 +95,7 @@ class MprisControl:
 
             if method.endswith(".Control"):
                 action = req["params"].get("command", "")
-                logger.debug(f"Control command: {action}")
+                logger.info(f"Control command: {action}")
 
                 if action == "play":
                     self._player.play()
@@ -132,7 +133,7 @@ class MprisControl:
                     send({"jsonrpc": "2.0", "id": id_, "result": "ok"})
 
         except Exception as e:
-            logger.debug(f"Error processing command: {e}")
+            logger.info(f"Error processing command: {e}")
 
 
 
@@ -157,9 +158,9 @@ for name in manager.props.player_names:
 loop = GLib.MainLoop()
 
 def run_loop():
-    logger.debug("Starting GLib loop in background thread...")
+    logger.info("Starting GLib loop in background thread...")
     loop.run()
-    logger.debug("GLib loop stopped.")
+    logger.info("GLib loop stopped.")
 
 thread = threading.Thread(target=run_loop)
 thread.daemon = True
