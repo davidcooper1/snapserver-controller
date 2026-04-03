@@ -49,7 +49,8 @@ class MprisControl:
         self._player = None
 
     def set_player(self, player):
-        self._player = weakref(player)
+        logger.debug("New player registered")
+        self._player = player
         player.connect('metadata', self.on_metadata)
         player.connect('playback_status', self.on_playback_status)
 
