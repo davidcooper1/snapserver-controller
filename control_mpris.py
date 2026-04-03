@@ -69,11 +69,11 @@ class MprisControl:
 
     def on_playback_status(self, player, playback_status, manager):
         logger.info(f"Playback Status Update: {playback_status}")
-        if playback_status == "playing":
+        if playback_status == Playerctl.PlaybackStatus.PLAYING:
             self._properties["playbackStatus"] = "playing"
-        elif playback_status == "paused":
+        elif playback_status == Playerctl.PlaybackStatus.PAUSED:
             self._properties["playbackStatus"] = "paused"
-        elif playback_status == "stopped":
+        elif playback_status == Playerctl.PlaybackStatus.STOPPED:
             self._properites["playbackStatus"] = "stopped"
         self.send_update()
 
