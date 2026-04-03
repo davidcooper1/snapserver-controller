@@ -23,6 +23,8 @@ def send(msg):
     sys.stdout.write(json.dumps(msg) + "\n")
     sys.stdout.flush()
 
+manager = Playerctl.PlayerManager()
+
 class MprisControl:
     def __init__(self):
         self._properties = {
@@ -48,7 +50,7 @@ class MprisControl:
 
         self._player = None
 
-    def set_player(self, player, manager):
+    def set_player(self, player):
         logger.info("New player registered")
         self._player = player
         player.connect('metadata', self.on_metadata, manager)
@@ -138,7 +140,6 @@ class MprisControl:
 
 
 cntrl = MprisControl()
-manager = Playerctl.PlayerManager()
 
 def init_player(name):
     player = Playerctl.Player.new_from_name(name)
