@@ -79,7 +79,7 @@ class MprisControl:
 
     def send_update(self):
         if (self._player is not None):
-            metadata = self._player.metadata
+            metadata = self._player.props.metadata
             if (metadata is not None):
                 keys = metadata.keys()
                 self._properties["metadata"].update({
