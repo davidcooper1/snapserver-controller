@@ -80,6 +80,7 @@ class MprisControl:
     def send_update(self):
         if (self._player is not None):
             metadata = self._player.metadata
+            keys = metadata.keys()
             self._properties["metadata"].update({
                 "title": metadata["xesam:title"] if "xesam:title" in keys else "",
                 "artist": metadata["xesam:artist"] if "xesam:artist" in keys else [],
