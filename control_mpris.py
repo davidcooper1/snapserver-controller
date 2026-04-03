@@ -58,13 +58,6 @@ class MprisControl:
 
     def on_metadata(self, player, metadata, manager):
         logger.info("Metadata changed")
-        keys = metadata.keys()
-        self._properties["metadata"].update({
-            "title": metadata["xesam:title"] if "xesam:title" in keys else "",
-            "artist": metadata["xesam:artist"] if "xesam:artist" in keys else [],
-            "album": metadata["xesam:album"] if "xesam:album" in keys else "",
-            "duration": (metadata["mpris:length"] if "mpris:length" in keys else 0) / 1000000.0
-        });
         self.send_update()
 
     def on_playback_status(self, player, playback_status, manager):
