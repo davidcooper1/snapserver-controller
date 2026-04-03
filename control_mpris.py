@@ -55,7 +55,7 @@ class MprisControl:
         player.connect('playback_status', self.on_playback_status)
 
     def on_metadata(self, player, metadata):
-        logger.debug(f"{json.dumps(metadata)}")
+        logger.debug("Metadata changed")
         self._properties["metadata"].update({
             "title": metadata.get("xesam:title", ""),
             "artist": metadata.get("xesam:artist", ""),
