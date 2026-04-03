@@ -64,7 +64,7 @@ class MprisControl:
             "artist": metadata["xesam:artist"] if "xesam:artist" in keys else [],
             "album": metadata["xesam:album"] if "xesam:album" in keys else "",
             "duration": (metadata["mpris:length"] if "mpris:length" in keys else 0) / 1000000.0
-        })
+        });
         self.send_update()
 
     def on_playback_status(self, player, playback_status, manager):
@@ -79,6 +79,13 @@ class MprisControl:
 
     def send_update(self):
         if (self._player is not None):
+            metadata = self._player.metadata
+            self._properties["metadata"].update({
+                "title": metadata["xesam:title"] if "xesam:title" in keys else "",
+                "artist": metadata["xesam:artist"] if "xesam:artist" in keys else [],
+                "album": metadata["xesam:album"] if "xesam:album" in keys else "",
+                "duration": (metadata["mpris:length"] if "mpris:length" in keys else 0) / 1000000.0
+            });
             self._properties["position"] = self._player.get_position() / 1000000.0
         send({
             "jsonrpc": "2.0",
